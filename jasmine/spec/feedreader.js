@@ -86,7 +86,7 @@ $(function() {
             });
         });
         it('loadFeed function is called and there is at least 1 .entry element within the .feed container', function(done) {
-            expect($('.feed').length).not.toBe(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0); 
             done();
         });
     });
@@ -97,18 +97,22 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
     describe('New Feed Selection', function() {
-        var preContent = $('.feed').html();
+        var preContent,
+            postContent;
 
         beforeEach(function(done) {
-            loadFeed(0, function() {
+            loadFeed(1, function() {
+                preContent = $('.feed').html();
                 done();
             });
         });
     
         it('loadFeed function loads new content', function(done) {
-            expect(preContent === $('.feed').html()).toBe(false);
+            loadFeed(2, function() {
+            postContent = $('.feed').html();
+            expect(preContent === postContent).toBe(false);
             done();
+            });
         });
-    });
-       
+    }); 
 }());
